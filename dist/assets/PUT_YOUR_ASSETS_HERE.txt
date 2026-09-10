@@ -1,0 +1,2 @@
+Copy the images/video from your old project's `assets/` folder into this folder.
+See the root README.md, section 2, for filenames that need renaming.
