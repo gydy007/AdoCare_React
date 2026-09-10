@@ -1,0 +1,455 @@
+ADO CARE PROJECT STRUCTURE AND COMPONENT GUIDE
+
+1. Project overview
+This project is a React + Vite landing page and multi-page healthcare website for Ado Care. It uses React 18, React Router, and Tailwind CSS to create a modern, responsive hospital website with different pages including Home, About, Specialists, Blogs, Appointment, Dashboard, and Emergency.
+
+The project is organized into a few main folders:
+- src/ : main React application code
+- public/assets/ : static media files such as images, videos, and icons used by the pages
+- index.html : the main HTML entry file
+- package.json : project scripts and dependencies
+- vite.config.js : Vite configuration
+- tailwind.config.js : Tailwind configuration
+- postcss.config.cjs : PostCSS configuration
+
+2. Main entry files
+
+2.1 index.html
+This file contains the root HTML container where the React app mounts:
+- <div id="root"></div>
+The browser loads this first, then React is injected through main.jsx.
+
+2.2 src/main.jsx
+This is the application bootstrap file. It:
+- Imports React and ReactDOM
+- Wraps the app in React.StrictMode
+- Wraps the whole project in BrowserRouter
+- Renders <App /> inside the root element
+- Imports src/index.css for styling
+
+2.3 src/App.jsx
+This file is the main app controller. It defines the route structure and shared UI elements:
+- ScrollToTop component: runs on every route change and scrolls the page to the top or to a hash target
+- Navbar: appears on all pages
+- main: contains the page routing system
+- Routes and Route components map URLs to page components
+- BackToTop: floating button that appears when the user scrolls down
+
+The routing is:
+- / -> Home
+- /about -> About
+- /specialists -> Specialists
+- /blogs -> Blogs
+- /appointment -> Appointment
+- /dashboard -> Dashboard
+- /emergency -> Emergency
+
+3. Folder structure and purpose
+
+This section explains how the code is organized and how the different parts of the app work together. The project is split into logical folders so the app is easy to understand, reuse, and update.
+
+3.1 src/pages/
+The src/pages folder contains the main screen components for each route. Each page is a separate React component that renders one section of the website. These pages are responsible for the actual content and layout, while the reusable building blocks (components, hooks, data) are imported into them.
+
+- Home.jsx
+  Home.jsx is the landing page of the website. It contains several sections shown in order:
+  - Hero section with large heading, explanatory text, call-to-action buttons, and background video
+  - About section with hospital image and summary text
+  - Specialization cards showing different healthcare services
+  - Specialist preview cards showing doctors
+  - Blog preview cards
+  - Appointment form section
+  - Sign-in panel
+  - Emergency banner with emergency hotline
+
+  How it works:
+  - It declares arrays such as specializations, doctors, and heroImages.
+  - It uses React state for appointment and sign-in form values.
+  - It uses useAuth() from src/hooks/useAuth.js to know whether a user is currently logged in.
+  - It uses useNavigate() from React Router to redirect the user to /dashboard after a successful sign-in.
+  - It renders Footer at the bottom of the page.
+  - It also renders ArticleReader, which opens a pop-up article modal when a blog card is clicked.
+
+  Important code idea:
+  - The Home page is not just a static file. It is a component with state and event handlers.
+  - For example, submitAppointment() checks that name and date are filled before showing a confirmation message.
+  - submitSignin() validates the email and password before calling signIn(email). If the password is not admin, it stops the process.
+
+- About.jsx
+  About.jsx is the page that tells visitors about the hospital’s mission, values, and departments.
+  It contains:
+  - Intro section with hospital image and copy
+  - Several specialization rows with alternating image layouts
+  - Mission section with large text and supporting image
+  - Values section showing six guiding principles
+  - Call-to-action section at the bottom
+
+  How it works:
+  - It uses arrays such as specRows and values to render repeated content.
+  - It maps over those arrays and creates repeated cards or rows dynamically.
+  - It uses the Reveal component around sections so they animate when they appear on the screen.
+  - The alternating layout is controlled by the reverse boolean in each row object.
+
+  Important code idea:
+  - The page is data-driven. Instead of writing every card manually, it loops through arrays and renders sections using data objects.
+  - This makes the page easier to maintain because adding a new department only means adding one new object.
+
+- Specialists.jsx
+  Specialists.jsx is the page that displays the team of specialists.
+  It contains an array called specialists, where each member has:
+  - name
+  - department
+  - title
+  - biography
+  - image
+  - stats
+
+  How it works:
+  - The file maps over the specialists array and renders one article card per specialist.
+  - Each card contains an image, role, credentials, biography, and stats boxes.
+  - The card also includes a Book Appointment button that links to /appointment.
+  - The Reveal component gives each card a fade-in effect when the card enters the viewport.
+
+  Important code idea:
+  - This page is a good example of reusable data-driven rendering in React.
+  - The data is stored in JavaScript objects, and the page template is the same for every specialist.
+
+- Blogs.jsx
+  Blogs.jsx renders the blog section, article overview cards, and wellness tips.
+
+  How it works:
+  - It imports articles from src/data/articles.js.
+  - It uses Object.entries(articles) to render all available articles as cards.
+  - Each article card shows title, author, read time, excerpt, and an image.
+  - Clicking Read Full Article calls setOpenArticle(Number(id)) to open the modal reader.
+  - It renders the ArticleReader component with the selected article id.
+
+  Important code idea:
+  - The page uses the same article data source as the Home page, so the blog content is consistent across the entire website.
+  - The full article view is not a separate page; it is opened as a modal overlay.
+
+- Appointment.jsx
+  Appointment.jsx is the page where users can sign in, create an account, or book an appointment.
+
+  How it works:
+  - The page stores state for sign-in fields, sign-up fields, and booking fields.
+  - There are two tabs: Sign in and Sign up.
+  - submitSignin() validates the password and then calls signIn(signinEmail.trim()) from useAuth().
+  - submitSignup() creates a demo account by signing in with the entered email.
+  - submitBooking() handles the appointment request and clears the booking form after success.
+
+  Important code idea:
+  - This page demonstrates form state management in React.
+  - The state is stored with useState and updated using onChange handlers.
+  - The page uses conditional rendering: when tab is signin, it shows the sign-in form; when tab is signup, it shows the sign-up form.
+
+- Dashboard.jsx
+  Dashboard.jsx is a protected page that shows patient information after sign-in.
+
+  How it works:
+  - It calls useAuth() to get the current user and signOut function.
+  - If no user exists, it returns <Navigate to="/appointment#auth-panel" replace />.
+  - The page then shows:
+    - next scheduled visit card
+    - care history list
+    - health tips section
+    - feedback form
+
+  Important code idea:
+  - This page is a good example of route protection in a React app.
+  - It checks the auth state before rendering content, so users cannot view the dashboard without signing in.
+
+- Emergency.jsx
+  Emergency.jsx contains the emergency support page.
+
+  How it works:
+  - It renders the emergency header, number, and procedure cards.
+  - It shows a warning banner for life-threatening emergencies.
+  - It includes a find-the-unit section with address and instructions.
+  - It passes a custom middleColumn prop into Footer so the footer shows emergency-specific links.
+
+  Important code idea:
+  - This page uses a customized footer configuration instead of the default footer content.
+  - It shows how reusable components can be adjusted with props.
+
+3.2 src/components/
+The components folder contains reusable UI building blocks. These components help keep the project organized and reduce repeated code.
+
+- Navbar.jsx
+  Navbar.jsx is the top navigation bar used across the app.
+
+  How it works:
+  - It imports NavLink from react-router-dom, which allows active route styling.
+  - It defines navItems as an array containing the home and section links.
+  - It uses the useState hook to open and close the mobile menu.
+  - It uses the useAuth() hook to know whether the user is logged in.
+
+  Important logic:
+  - const authTo = user ? '/dashboard' : '/appointment#auth-panel'
+  - const authLabel = user ? 'Dashboard' : 'Sign In'
+
+  These two lines make the navigation adapt automatically:
+  - If the user is signed in, the button goes to the dashboard.
+  - If not signed in, it goes to the appointment page and highlights the sign-in panel.
+
+  The component also contains a mobile menu with a toggle button and close-on-click behavior.
+
+- Footer.jsx
+  Footer.jsx is the universal footer shared by most pages.
+
+  How it works:
+  - It defines socialLinks for social media placeholders.
+  - It creates defaultMiddle with departments and links.
+  - It renders four columns:
+    - Ado Care brand and description
+    - Quick Links
+    - Departments
+    - Contact Us
+
+  Important code idea:
+  - The component accepts a middleColumn prop with a default value.
+  - This makes the same footer reusable for regular pages and emergency pages without duplicating code.
+
+- ArticleReader.jsx
+  ArticleReader.jsx is the pop-up article viewer.
+
+  How it works:
+  - It receives articleId and onClose from its parent.
+  - It uses articleId to find the selected article from the articles data object.
+  - If no article is selected, it returns null, meaning nothing is displayed.
+  - When an article exists, it adds the CSS class overflow-hidden to the body to stop background scrolling.
+  - It listens for the Escape key and calls onClose().
+  - It renders a centered modal with the article image, category, title, author, read time, and body text.
+
+  Important code idea:
+  - This component controls UI state through effects.
+  - The document body is modified directly in useEffect, which is a common pattern for modal behavior in React.
+
+- BackToTop.jsx
+  BackToTop.jsx is a scroll helper button.
+
+  How it works:
+  - It uses useState to track whether the page has been scrolled far enough.
+  - It registers a scroll event listener in useEffect.
+  - When window.pageYOffset is greater than 300, it sets visible to true.
+  - When the user clicks the button, window.scrollTo({ top: 0, behavior: 'smooth' }) moves the page to the top.
+
+  Important code idea:
+  - This is a simple example of interaction based on scroll position.
+
+- Reveal.jsx
+  Reveal.jsx is a small wrapper around the custom hook useScrollReveal().
+
+  How it works:
+  - It receives props such as as, variant, className, children.
+  - It calls useScrollReveal() to get a ref.
+  - It applies a reveal-variant class such as reveal-up, reveal-left, or reveal-fade.
+  - The actual observer logic is in the hook.
+
+  Important code idea:
+  - This keeps the animation logic separate from the component markup.
+  - A page can simply use <Reveal variant="up">...</Reveal> without repeating observer code.
+
+3.3 src/hooks/
+This folder contains reusable logic that is not tied to one specific page.
+
+- useAuth.js
+  useAuth.js controls the authentication state for the whole app.
+
+  How it works:
+  - It defines a constant KEY = 'adoCareUser'.
+  - It initializes state with localStorage.getItem(KEY).
+  - It listens for the storage event so changes in localStorage can update state in other tabs.
+  - signIn(email) saves the user email to localStorage and updates state.
+  - signOut() removes the saved user and resets state.
+
+  Important code idea:
+  - This hook is the project’s app-wide state manager for login status.
+  - Because it uses localStorage, the login state survives page refreshes.
+
+- useScrollReveal.js
+  useScrollReveal.js contains the IntersectionObserver logic.
+
+  How it works:
+  - It creates a ref using useRef(null).
+  - In useEffect, it finds the target element.
+  - It creates a new IntersectionObserver with a threshold and rootMargin.
+  - When the element intersects the viewport, it adds the in-view class and disconnects from that element.
+
+  Important code idea:
+  - This is the core animation engine behind reveal effects.
+  - The observer is only created when the component mounts, and it stops observing after the element becomes visible.
+
+3.4 src/data/
+This directory stores structured data used by the pages.
+
+- articles.js
+  articles.js stores all article content used in the Wellness Blog and Home preview sections.
+
+  How it works:
+  - The file exports an object or array of article entries.
+  - Each article contains fields like id, title, author, readTime, category, excerpt, image, and body.
+  - The page imports the data and maps over it to render cards.
+  - The ArticleReader component uses the article id to fetch the correct article details.
+
+  Important code idea:
+  - Data is separated from layout.
+  - The UI does not hardcode every article; it reads from a central data source.
+
+4. How the components work together
+
+This section explains the full flow of the application from start to finish.
+
+1. Browser loads src/main.jsx.
+2. main.jsx wraps the app in BrowserRouter and renders App.
+3. App.jsx creates the global UI structure:
+   - Navbar
+   - page container with routes
+   - BackToTop button
+   - ScrollToTop effect
+4. React Router reads the URL and decides which page component to render.
+5. Each page uses components and hooks from other folders.
+6. Page interactions update React state, which causes the UI to re-render.
+7. Reusable components such as Footer, Reveal, and ArticleReader are used across many pages.
+
+5. How the site behaves
+
+5.1 Routing
+The app is a single-page application with multiple routes. The App component uses Route declarations to render the right page for each URL path.
+
+5.2 Navigation
+Navbar uses NavLink to highlight the active route. It supports desktop and mobile layouts and changes its auth button text and destination dynamically.
+
+5.3 Authentication (demo user flow)
+- User signs in on Home or Appointment page
+- signIn() saves the email in localStorage
+- Dashboard checks that user on load
+- If the user is missing, Dashboard redirects back to the appointment page
+- signOut() clears the saved user information
+
+5.4 Scroll reveal animations
+The useScrollReveal hook uses IntersectionObserver to detect when an element enters the viewport. Reveal wraps that feature so any section can animate in with a simple component.
+
+5.5 Blog reader modal
+Blog cards on Home and Blogs use ArticleReader. Clicking Read Full Article opens the modal and displays the full article content. The modal prevents background scrolling and closes with Escape or overlay click.
+
+5.6 Appointment and feedback forms
+Forms are controlled by React state. Each input uses value and onChange to keep the UI in sync with the user’s typing. Form handlers then validate or confirm the request.
+
+6. Styling system
+The project uses Tailwind CSS with custom colors and designs defined in:
+- src/index.css
+- tailwind.config.js
+
+The CSS file contains custom utility classes such as:
+- reveal-up
+- reveal-left
+- reveal-right
+- reveal-bottom
+- reveal-fade
+- hero-carousel-img
+
+It also includes global styling for fonts, layout spacing, and shared design tokens.
+
+7. Shared assets and media
+Images and video assets are stored in public/assets/.
+Examples include:
+- doctor portraits
+- department images
+- a background video
+- hospital and care-related visuals
+
+These assets are referenced with paths such as /assets/doctor1.jpg and /assets/background hero.mp4.
+
+8. How to run the website
+The project has been set up and verified. The app can be run with:
+- npm install
+- npm run dev
+
+The local development server should run at:
+- http://localhost:5173
+
+The app was also verified with a production build using:
+- npm run build
+and it completed successfully.
+
+9. Summary
+This project is a strong example of a React-based multi-page landing site with reusable components, route-based navigation, custom hooks, modal content, and responsive design. The main idea is that every page is built from small, reusable blocks, and the site behavior is controlled by React state, route changes, and custom hooks.
+
+This project is a clean React architecture that can be extended easily for adding new pages, forms, and healthcare features.
+
+4. How the components work together
+
+The application flow is simple:
+1. Browser loads src/main.jsx
+2. main.jsx wraps the app in BrowserRouter and renders App
+3. App renders Navbar, route container, and BackToTop
+4. Based on the URL, React Router renders the correct page component
+5. Pages use reusable components like Footer, Reveal, and ArticleReader
+6. The hooks connect stateful features like authentication and scroll animations
+
+5. How the site behaves
+
+5.1 Routing
+The app is a single-page application with multiple routes. The App component uses React Router Route entries to change content without full page reloads.
+
+5.2 Navigation
+Navbar uses NavLink for active route styling. On desktop it shows the main navigation links; on mobile it collapses into a menu toggle.
+
+5.3 Authentication (demo user flow)
+- User signs in on Home or Appointment page
+- The signIn() function stores the email in localStorage
+- The dashboard page reads the signed-in user from useAuth()
+- If there is no user, Dashboard automatically redirects to the Appointment page
+- Sign out clears the localStorage value
+
+5.4 Scroll reveal animations
+The useScrollReveal hook watches page elements using IntersectionObserver. When elements appear on screen, they receive the in-view class. The Reveal component forwards that behavior to any page section.
+
+5.5 Blog reader modal
+Blog cards on Home and Blogs use ArticleReader. Clicking Read Full Article opens the modal and displays the full article content. The modal prevents background scrolling and closes when the user presses Escape or clicks the overlay.
+
+5.6 Appointment and feedback forms
+Forms are controlled by React state. They update as the user types, and submission handlers perform validation or confirmation messages.
+
+6. Styling system
+The project uses Tailwind CSS with custom colors and designs defined in:
+- src/index.css
+- tailwind.config.js
+
+The CSS file contains custom utility classes such as:
+- reveal-up
+- reveal-left
+- reveal-right
+- reveal-bottom
+- reveal-fade
+- hero-carousel-img
+
+It also includes global styling for fonts, layout spacing, and shared design tokens.
+
+7. Shared assets and media
+Images and video assets are stored in public/assets/.
+Examples include:
+- doctor portraits
+- department images
+- a background video
+- hospital and care-related visuals
+
+These assets are referenced with paths such as /assets/doctor1.jpg and /assets/background hero.mp4.
+
+8. How to run the website
+The project has been set up and verified. The app can be run with:
+- npm install
+- npm run dev
+
+The local development server should run at:
+- http://localhost:5173
+
+The app was also verified with a production build using:
+- npm run build
+and it completed successfully.
+
+9. Summary
+This project is a strong example of a React-based multi-page landing site with reusable components, route-based navigation, custom hooks, modal content, and responsive design. The main idea is that every page is built from small, reusable blocks, and the site behavior is controlled by React state, route changes, and custom hooks.
+
+This project is a clean React architecture that can be extended easily for adding new pages, forms, and healthcare features.

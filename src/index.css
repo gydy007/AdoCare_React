@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans text-navy bg-brand-bg;
+  line-height: 1.6;
+}
+
+main {
+  padding-top: 70px;
+}
+
+@media (max-width: 599px) {
+  main {
+    padding-top: 50px;
+  }
+}
+
+/* ============ scroll-reveal keyframes (ported from Style1.css) ============ */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInBottom {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInSimple {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Generic reveal-on-scroll: element starts hidden, .in-view triggers its animation */
+.reveal-up { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+.reveal-up.in-view { opacity: 1; transform: translateY(0); }
+
+.reveal-left { opacity: 0; }
+.reveal-left.in-view { animation: slideInLeft .8s ease-out both; }
+
+.reveal-right { opacity: 0; }
+.reveal-right.in-view { animation: slideInRight .8s ease-out both; }
+
+.reveal-bottom { opacity: 0; }
+.reveal-bottom.in-view { animation: slideInBottom .6s ease-out both; }
+
+.reveal-fade { opacity: 0; }
+.reveal-fade.in-view { animation: fadeInSimple .6s ease-out both; }
+
+/* Hero image carousel cross-fade (index page) */
+.hero-carousel-img {
+  animation: carouselFade 120s infinite;
+}
+.hero-carousel-img:nth-child(1) { animation-delay: 0s; }
+.hero-carousel-img:nth-child(2) { animation-delay: -20s; }
+.hero-carousel-img:nth-child(3) { animation-delay: -40s; }
+.hero-carousel-img:nth-child(4) { animation-delay: -60s; }
+.hero-carousel-img:nth-child(5) { animation-delay: -80s; }
+.hero-carousel-img:nth-child(6) { animation-delay: -100s; }
+
+/* Specialization row images trade places on hover (about page) */
+.spec-images:hover .img-a {
+  transform: scale(0.94) translateY(6px);
+  filter: brightness(0.92);
+}
+.spec-images:hover .img-b {
+  transform: scale(1.1);
+  box-shadow: 0 26px 56px rgba(8, 40, 50, 0.22);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
