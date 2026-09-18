@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../components/Reveal'
 import Footer from '../components/Footer'
@@ -7,29 +7,38 @@ import { useAuth } from '../hooks/useAuth'
 import articles from '../data/articles'
 
 const specializations = [
-  { icon: '/assets/family.jpg', title: 'Primary Care', text: 'Preventive checkups, family medicine, and long-term health guidance.' },
-  { icon: '/assets/diagnostics.jpg', title: 'Mental Health', text: 'Compassionate support for emotional wellbeing and therapy-led recovery.' },
-  { icon: '/assets/healthy_lifestyle.png', title: 'Diagnostics', text: 'Fast, accurate laboratory and imaging services to guide confident care decisions.' },
-  { icon: '/assets/doctor_neurology.png', title: 'Orthopedics', text: 'Joint, bone, and mobility care using minimally invasive and rehab-focused methods.' },
-  { icon: '/assets/nutrition_superfoods.png', title: 'Pediatrics', text: 'Family-centered health support for newborns, children, and adolescents.' },
-  { icon: '/assets/healthy_lifestyle.png', title: 'Cardiology', text: 'Advanced heart diagnostics, monitoring, and treatment plans for every patient.' },
+  { icon: `${import.meta.env.BASE_URL}assets/family.jpg`, title: 'Primary Care', text: 'Preventive checkups, family medicine, and long-term health guidance.' },
+  { icon: `${import.meta.env.BASE_URL}assets/diagnostics.jpg`, title: 'Mental Health', text: 'Compassionate support for emotional wellbeing and therapy-led recovery.' },
+  { icon: `${import.meta.env.BASE_URL}assets/healthy_lifestyle.png`, title: 'Diagnostics', text: 'Fast, accurate laboratory and imaging services to guide confident care decisions.' },
+  { icon: `${import.meta.env.BASE_URL}assets/doctor_neurology.png`, title: 'Orthopedics', text: 'Joint, bone, and mobility care using minimally invasive and rehab-focused methods.' },
+  { icon: `${import.meta.env.BASE_URL}assets/nutrition_superfoods.png`, title: 'Pediatrics', text: 'Family-centered health support for newborns, children, and adolescents.' },
+  { icon: `${import.meta.env.BASE_URL}assets/healthy_lifestyle.png`, title: 'Cardiology', text: 'Advanced heart diagnostics, monitoring, and treatment plans for every patient.' },
 ]
 
 const doctors = [
-  { name: 'Dr. Adebayo Ogunleye', role: 'Neurosurgeon', image: '/assets/doctor1.jpg' },
-  { name: 'Dr. Folashade Eniola', role: 'Therapist', image: '/assets/doctor2.jpg' },
-  { name: 'Dr. Chidinma Nwosu', role: 'Pediatrician', image: '/assets/doctor3.jpg' },
-  { name: 'Pharm. Emeka Azubuike', role: 'Pharmacist', image: '/assets/doctor4.jpg' },
-  { name: 'Dr. Amara Okechukwu', role: 'Dentist', image: '/assets/doctor5.jpg' },
-  { name: 'Dr. Ibrahim Musa', role: 'Surgeon', image: '/assets/doctor60.jpg' },
+  { name: 'Dr. Adebayo Ogunleye', role: 'Neurosurgeon', image: `${import.meta.env.BASE_URL}assets/doctor1.jpg` },
+  { name: 'Dr. Folashade Eniola', role: 'Therapist', image: `${import.meta.env.BASE_URL}assets/doctor2.jpg` },
+  { name: 'Dr. Chidinma Nwosu', role: 'Pediatrician', image: `${import.meta.env.BASE_URL}assets/doctor3.jpg` },
+  { name: 'Pharm. Emeka Azubuike', role: 'Pharmacist', image: `${import.meta.env.BASE_URL}assets/doctor4.jpg` },
+  { name: 'Dr. Amara Okechukwu', role: 'Dentist', image: `${import.meta.env.BASE_URL}assets/doctor5.jpg` },
+  { name: 'Dr. Ibrahim Musa', role: 'Surgeon', image: `${import.meta.env.BASE_URL}assets/doctor60.jpg` },
 ]
 
-const heroImages = ['/assets/hero1.jpg', '/assets/hero2.jpg', '/assets/hero3.jpg', '/assets/hero4.jpg', '/assets/hero7.jpg', '/assets/hero8.jpg']
+const heroImages = [`${import.meta.env.BASE_URL}assets/hero1.jpg`, `${import.meta.env.BASE_URL}assets/hero2.jpg`, `${import.meta.env.BASE_URL}assets/hero3.jpg`, `${import.meta.env.BASE_URL}assets/hero4.jpg`, `${import.meta.env.BASE_URL}assets/hero7.jpg`, `${import.meta.env.BASE_URL}assets/hero8.jpg`]
 
 export default function Home() {
   const { user, signIn } = useAuth()
   const navigate = useNavigate()
   const [openArticle, setOpenArticle] = useState(null)
+
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)
+    }, 10000)
+    return () => clearInterval(timer)
+  }, [])
 
   const [apptName, setApptName] = useState('')
   const [apptDate, setApptDate] = useState('')
@@ -75,7 +84,7 @@ export default function Home() {
       <section>
         <div className="relative w-full min-h-[calc(100vh-70px)] flex flex-col md:flex-row items-center justify-between gap-10 px-6 sm:px-10 md:px-20 py-14 md:py-16 overflow-hidden rounded-t-[10px] rounded-b-[40px]">
           <video className="absolute inset-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline>
-            <source src="/assets/background%20hero.mp4" type="video/mp4" />
+            <source src={`${import.meta.env.BASE_URL}assets/background%20hero.mp4`} type="video/mp4" />
           </video>
           <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(115deg, rgba(42,63,92,0.99) 0%, rgba(77,86,100,0.7) 45%, rgba(214,227,245,0.6) 100%)' }} />
 
@@ -108,7 +117,7 @@ export default function Home() {
                 key={src}
                 src={src}
                 alt=""
-                className="hero-carousel-img absolute top-0 left-0 w-full h-full object-cover rounded-[28px] shadow-[0_25px_60px_rgba(0,0,0,0.25)]"
+                className={`hero-carousel-img absolute top-0 left-0 w-full h-full object-cover rounded-[28px] shadow-[0_25px_60px_rgba(0,0,0,0.25)] transition-opacity duration-[4000ms] ${i === currentHeroIndex ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
           </div>
@@ -118,7 +127,7 @@ export default function Home() {
         <div className="flex flex-wrap items-center gap-10 bg-white rounded-[40px] p-8 sm:p-12 md:p-14 mx-4 sm:mx-8 md:mx-10 my-10 md:my-16 shadow-card border border-black/[0.03]">
           <div className="flex-1 basis-[35%] min-w-[260px]">
             <Reveal variant="left">
-              <img src="/assets/download.jpg" alt="" className="w-full h-auto max-h-[380px] object-cover rounded-[28px] shadow-[0_16px_40px_rgba(8,40,50,0.08)] hover:scale-[1.02] transition" />
+              <img src={`${import.meta.env.BASE_URL}assets/download.jpg`} alt="" className="w-full h-auto max-h-[380px] object-cover rounded-[28px] shadow-[0_16px_40px_rgba(8,40,50,0.08)] hover:scale-[1.02] transition" />
             </Reveal>
           </div>
 
@@ -235,7 +244,7 @@ export default function Home() {
 
           {user ? (
             <div className="relative min-h-[390px] overflow-hidden rounded-[18px] bg-navy shadow-[0_15px_32px_rgba(11,42,59,0.14)]">
-              <img src="/assets/child%202%20(2).jpg" alt="" className="w-full h-full min-h-[390px] object-cover opacity-70" />
+              <img src={`${import.meta.env.BASE_URL}assets/child%202%20(2).jpg`} alt="" className="w-full h-full min-h-[390px] object-cover opacity-70" />
               <div className="absolute inset-x-0 bottom-0 p-7 pb-7 text-white" style={{ background: 'linear-gradient(transparent, rgba(11,42,59,0.94) 32%)' }}>
                 <span className="text-teal-light text-xs font-extrabold tracking-[0.12em] uppercase">Welcome back</span>
                 <h3 className="mt-2 mb-1.5 text-white text-[1.6rem]">Your care is in good hands.</h3>

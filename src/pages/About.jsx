@@ -7,48 +7,48 @@ const specRows = [
     dept: 'General Medicine',
     title: 'Primary care, built around you',
     text: 'From routine checkups to managing chronic conditions, our primary care physicians get to know you as a person, not just a chart. We coordinate everything—labs, referrals, follow-ups—so your care never falls through the cracks. Preventive screening, vaccinations, and personalized health guidance keep small issues from becoming big ones.',
-    imgA: '/assets/On%20duty.jpg',
-    imgB: '/assets/healthy_lifestyle.png',
+    imgA: `${import.meta.env.BASE_URL}assets/On%20duty.jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/healthy_lifestyle.png`,
     reverse: false,
   },
   {
     dept: 'Behavioural Health',
     title: 'Support for the mind, not just the body',
     text: 'Our licensed therapists and psychiatrists create a calm, judgment-free space to work through anxiety, depression, grief, and everyday stress. Sessions are private and paced to you, whether that means weekly talk therapy, medication management, or a one-time consultation. Healing takes time, and we stay with you through it.',
-    imgA: '/assets/mindBody.jpg',
-    imgB: '/assets/hero2.jpg',
+    imgA: `${import.meta.env.BASE_URL}assets/mindBody.jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/hero2.jpg`,
     reverse: true,
   },
   {
     dept: 'Laboratory & Imaging',
     title: 'Answers you can trust, fast',
     text: 'Same-day bloodwork, ultrasound, X-ray, and CT services mean fewer days spent waiting and wondering. Our lab is calibrated and cross-checked against international standards, and every result is reviewed by a physician before it reaches you—so you get clarity, not just numbers.',
-    imgA: '/assets/answers.jpg',
-    imgB: '/assets/hero3.jpg',
+    imgA: `${import.meta.env.BASE_URL}assets/answers.jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/hero3.jpg`,
     reverse: false,
   },
   {
     dept: 'Bone & Joint',
     title: 'Getting you moving again',
     text: "Whether it's a sports injury, arthritis, or a joint that's been aching for years, our orthopedic team builds a plan around your mobility goals. We lean on physiotherapy and minimally invasive techniques first, reserving surgery for when it's truly the better option.",
-    imgA: '/assets/moving.jpg',
-    imgB: '/assets/hero4.jpg',
+    imgA: `${import.meta.env.BASE_URL}assets/moving.jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/hero4.jpg`,
     reverse: true,
   },
   {
     dept: 'Child & Adolescent Health',
     title: 'Care that grows with your child',
     text: 'From newborn checkups to teenage growth spurts, our pediatric team tracks development milestones and keeps immunizations on schedule. We talk to kids at their level and to parents in plain language, so nobody leaves an appointment with unanswered questions.',
-    imgA: '/assets/child%201.jpg',
-    imgB: '/assets/child%202%20(2).jpg',
+    imgA: `${import.meta.env.BASE_URL}assets/child%201.jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/child%202%20(2).jpg`,
     reverse: false,
   },
   {
     dept: 'Heart & Vascular',
     title: 'Protecting the heart of the matter',
     text: "Our cardiologists combine advanced diagnostics—ECG, echocardiography, stress testing—with honest conversations about lifestyle and risk. Whether you're managing hypertension or recovering from a cardiac event, we build a treatment plan that fits your life, not just your chart.",
-    imgA: '/assets/heart%20(1).jpg',
-    imgB: '/assets/heart%20(5).jpg',
+    imgA: `${import.meta.env.BASE_URL}assets/heart%20(1).jpg`,
+    imgB: `${import.meta.env.BASE_URL}assets/heart%20(5).jpg`,
     reverse: true,
   },
 ]
@@ -69,7 +69,7 @@ export default function About() {
       <section>
         <div className="flex flex-wrap items-center gap-10 bg-white rounded-[40px] p-8 sm:p-12 md:p-14 mx-4 sm:mx-8 md:mx-10 mt-10">
           <div className="flex-1 basis-[35%] min-w-[260px]">
-            <img src="/assets/download.jpg" alt="Ado Care hospital" className="w-full h-auto max-h-[380px] object-cover rounded-[28px] shadow-[0_16px_40px_rgba(8,40,50,0.08)]" />
+            <img src={`${import.meta.env.BASE_URL}assets/download.jpg`} alt="Ado Care hospital" className="w-full h-auto max-h-[380px] object-cover rounded-[28px] shadow-[0_16px_40px_rgba(8,40,50,0.08)]" />
           </div>
           <div className="flex-[2] basis-[50%] min-w-[280px]">
             <span className="inline-flex items-center gap-2 text-sm uppercase tracking-[2px] text-teal font-semibold bg-teal/[0.08] px-[18px] py-1 rounded-full mb-3">About us</span>
@@ -151,7 +151,7 @@ export default function About() {
           </Reveal>
 
           <Reveal variant="up" className="relative min-h-[300px] md:min-h-[390px]">
-            <img src="/assets/child%202%20(2).jpg" alt="A healthcare professional caring for a patient" className="block w-full h-[300px] md:h-[390px] object-cover rounded-[20px] saturate-[.9]" />
+            <img src={`${import.meta.env.BASE_URL}assets/child%202%20(2).jpg`} alt="A healthcare professional caring for a patient" className="block w-full h-[300px] md:h-[390px] object-cover rounded-[20px] saturate-[.9]" />
             <div className="absolute right-3 md:-right-5 bottom-4 md:bottom-6 flex items-center gap-3 w-[88%] max-w-[270px] p-4 bg-white text-navy rounded-xl shadow-[0_16px_34px_rgba(0,0,0,0.2)]">
               <span className="flex-none text-teal-dark"><i className="fas fa-hand-holding-heart" /></span>
               <p className="text-[0.82rem] font-extrabold leading-snug">Every patient deserves to feel heard, safe, and supported.</p>

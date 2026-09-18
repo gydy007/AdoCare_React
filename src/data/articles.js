@@ -1,10 +1,12 @@
+const base = import.meta.env.BASE_URL;
+
 const articles = {
   1: {
     category: 'Longevity',
     title: 'The Science of Longevity: 5 Daily Habits That Add Quality Years to Life',
     author: 'Dr. Marcus Thorne',
     readTime: '5 min read',
-    image: '/assets/healthy_lifestyle.png',
+    image: `${base}assets/healthy_lifestyle.png`,
     excerpt: 'Five grounded habits can support a longer, more active life without requiring a perfect routine.',
     body: [
       'Living longer is only part of the goal. The better measure of longevity is how many healthy, active years we can enjoy. Research consistently points to a handful of practical habits that support the heart, brain, and immune system.',
@@ -17,7 +19,7 @@ const articles = {
     title: 'A Practical Guide to Protecting Your Heart Every Day',
     author: 'Dr. M. Rivera',
     readTime: '6 min read',
-    image: '/assets/heart%20(1).jpg',
+    image: `${base}assets/heart%20(1).jpg`,
     excerpt: 'Small changes to movement, food, and checkups can create meaningful heart health habits.',
     body: [
       'Heart health is shaped by everyday choices as much as by medical treatment. Understanding your blood pressure, cholesterol, blood sugar, and family history gives you a clear starting point.',
@@ -30,7 +32,7 @@ const articles = {
     title: 'Simple Ways to Create More Mental Space',
     author: 'Dr. S. Chen',
     readTime: '4 min read',
-    image: '/assets/mindBody.jpg',
+    image: `${base}assets/mindBody.jpg`,
     excerpt: 'Practical ways to notice stress, recover, and find support before your reserves run low.',
     body: [
       'Mental wellbeing is not about feeling positive every minute. It is about having practical ways to notice stress, recover, and ask for support when you need it.',
@@ -43,7 +45,7 @@ const articles = {
     title: 'Helping Children Build Healthy Routines',
     author: 'Dr. A. Kapoor',
     readTime: '4 min read',
-    image: '/assets/child%201.jpg',
+    image: `${base}assets/child%201.jpg`,
     excerpt: 'Make meals, sleep, movement, and honest conversations part of a child\u2019s everyday rhythm.',
     body: [
       'Children learn healthy routines through repetition and example. Regular meals, active play, good sleep, and open conversations about feelings create a strong base for growth.',
@@ -56,7 +58,7 @@ const articles = {
     title: 'How to Support a Stronger Recovery After Treatment',
     author: 'Dr. N. Adeyemi',
     readTime: '5 min read',
-    image: '/assets/moving.jpg',
+    image: `${base}assets/moving.jpg`,
     excerpt: 'Recovery is a process. Learn how care plans, patience, and support work together.',
     body: [
       'Recovery is a process, and progress can look different from one person to the next. Following your care plan and communicating changes early can make the journey smoother.',
@@ -69,7 +71,7 @@ const articles = {
     title: 'Why Preventive Checkups Belong on Your Calendar',
     author: 'Ado Care Clinical Team',
     readTime: '3 min read',
-    image: '/assets/answers.jpg',
+    image: `${base}assets/answers.jpg`,
     excerpt: 'A checkup is a useful conversation about staying well and planning for the years ahead.',
     body: [
       'Preventive care helps identify health risks before they become disruptive symptoms. The right schedule depends on your age, history, lifestyle, and family needs.',
